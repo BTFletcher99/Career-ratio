@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Career Ratio — Self Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1117;
+    --white: #ffffff;
+    --bg: #e8e8e8;
+    --mid: #6b7280;
+    --light: #e5e7eb;
+    --lighter: #f9fafb;
+    --z1: #9b2226;
+    --z2: #4a7c59;
+    --z3: #9a7d2e;
+    --z4: #5c4a8a;
+    --z5: #7d2a2a;
+  }
+
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    font-family: 'IBM Plex Sans', sans-serif;
+    padding: 48px 24px 80px;
+    color: var(--ink);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* ── Assessment Header ── */
+  .assess-header {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 48px 56px 40px;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 14px;
+  }
+
+  .assess-header h1 {
+    font-size: 52px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .assess-header .subtitle {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--mid);
+    margin-bottom: 20px;
+  }
+
+  .assess-header .desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ── Section block ── */
+  .section-block {
+    background: var(--white);
+    border: 1px solid var(--light);
+    margin-bottom: 2px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--light);
+    background: var(--lighter);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .section-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .section-sub {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--mid);
+    font-style: normal;
+  }
+
+  /* ── Question card ── */
+  .question-card {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--light);
+    transition: background 0.15s;
+  }
+
+  .question-card:last-child { border-bottom: none; }
+  .question-card.answered { background: #fafffe; }
+
+  .q-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .q-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    letter-spacing: 0.1em;
+  }
+
+  .q-text {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  .scale-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .scale-btns {
+    display: flex;
+    gap: 6px;
+  }
+
+  .scale-btn {
+    width: 44px;
+    height: 36px;
+    border: 1.5px solid var(--light);
+    background: transparent;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mid);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+
+  .scale-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .scale-btn.selected {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: white;
+  }
+
+  .scale-ends {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #9ca3af;
+    padding: 0 2px;
+  }
+
+  /* ── Progress ── */
+  .progress-wrap {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 24px 32px;
+    margin-bottom: 2px;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--mid);
+  }
+
+  .progress-pct {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--light);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  /* ── Submit ── */
+  .submit-wrap {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 2px;
+  }
+
+  .submit-btn {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 14px 48px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .submit-btn.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .submit-btn.active:hover {
+    background: #374151;
+    transform: translateY(-1px);
+  }
+
+  /* ══════════════════════════════════
+     RESULTS
+  ══════════════════════════════════ */
+  #results { display: none; }
+
+  /* Result hero */
+  .result-hero {
+    background: var(--ink);
+    color: white;
+    padding: 48px 56px;
+    margin-bottom: 2px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .result-zone-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 10px;
+  }
+
+  .result-zone-name {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .result-ratio-display {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .result-tagline {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #d1d5db;
+    max-width: 440px;
+  }
+
+  .result-scores {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: right;
+  }
+
+  .score-item {}
+
+  .score-item-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 4px;
+  }
+
+  .score-item-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  /* Spectrum result */
+  .spectrum-result {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 32px 40px;
+    margin-bottom: 2px;
+  }
+
+  .result-section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 16px;
+  }
+
+  .spectrum-bar-result {
+    display: flex;
+    height: 52px;
+    margin-bottom: 0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .seg-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    transition: all 0.3s;
+    position: relative;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .seg-result.dimmed {
+    opacity: 0.25;
+    filter: saturate(0.3);
+  }
+
+  .seg-result.active {
+    opacity: 1;
+    filter: none;
+  }
+
+  .seg-result .seg-num {
+    color: rgba(255,255,255,0.9);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .seg-result .seg-you {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: white;
+    background: rgba(255,255,255,0.25);
+    padding: 1px 6px;
+    border-radius: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .spectrum-axis-result {
+    position: relative;
+    height: 28px;
+  }
+
+  /* Full diagram in results */
+  .full-diagram {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 32px 40px;
+    margin-bottom: 2px;
+  }
+
+  .zones-grid-result {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border: 1px solid var(--light);
+    margin-bottom: 24px;
+  }
+
+  .zone-col-result {
+    border-right: 1px solid var(--light);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+  }
+
+  .zone-col-result:last-child { border-right: none; }
+
+  .zone-col-result.dimmed {
+    opacity: 0.35;
+  }
+
+  .zone-col-result.active {
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--ink);
+    position: relative;
+    z-index: 2;
+  }
+
+  .zone-col-result .zone-header {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .zone-col-result .zone-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .zone-col-result .zone-name {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .zone-col-result .zone-body {
+    padding: 12px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .zone-col-result .zone-ratio {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .zone-col-result .zone-desc {
+    font-size: 11px;
+    line-height: 1.55;
+    color: #374151;
+    font-weight: 300;
+    flex: 1;
+  }
+
+  .zone-col-result .zone-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 5px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  /* Time dimension in results */
+  .time-rows-result {
+    border: 1px solid var(--light);
+    overflow: hidden;
+  }
+
+  .time-header-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 140px 1fr;
+    background: var(--lighter);
+    border-bottom: 1px solid var(--light);
+    padding: 10px 16px;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .time-col-head {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .time-data-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 140px 1fr;
+    border-bottom: 1px solid var(--light);
+    padding: 14px 16px;
+    gap: 12px;
+    align-items: center;
+    transition: all 0.3s;
+  }
+
+  .time-data-row:last-child { border-bottom: none; }
+  .time-data-row.dimmed { opacity: 0.3; }
+  .time-data-row.active { background: #fafffe; }
+
+  .time-zone-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .time-bar-track {
+    height: 18px;
+    background: #f3f4f6;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .time-bar-fill {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+  }
+
+  .time-bar-fill span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: white;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .time-duration {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .time-consequence {
+    font-size: 11px;
+    color: var(--mid);
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  /* Actions block */
+  .actions-block {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 32px 40px;
+    margin-bottom: 2px;
+  }
+
+  .actions-block h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .actions-block .duration-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--mid);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .action-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .action-list li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--light);
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: #374151;
+  }
+
+  .action-list li:last-child { border-bottom: none; }
+
+  .action-arrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--mid);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* Restart */
+  .restart-wrap {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 24px 32px;
+    text-align: center;
+  }
+
+  .restart-btn {
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    padding: 12px 36px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .restart-btn:hover {
+    background: var(--ink);
+    color: white;
+  }
+
+  /* ── Career stage selector ── */
+  .stage-block {
+    background: var(--white);
+    border: 1px solid var(--light);
+    margin-bottom: 2px;
+    overflow: hidden;
+  }
+
+  .stage-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 24px 32px;
+  }
+
+  .stage-btn {
+    border: 1.5px solid var(--light);
+    background: transparent;
+    border-radius: 2px;
+    padding: 16px 20px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .stage-btn:hover {
+    border-color: var(--ink);
+  }
+
+  .stage-btn.selected {
+    border-color: var(--ink);
+    background: var(--lighter);
+  }
+
+  .stage-btn-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .stage-btn-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.5;
+    display: block;
+  }
+
+  /* Stage narrative in results */
+  .stage-narrative {
+    background: var(--lighter);
+    border-left: 3px solid var(--ink);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #374151;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @media (max-width: 600px) {
+    .result-hero { grid-template-columns: 1fr; }
+    .result-scores { text-align: left; flex-direction: row; }
+    .assess-header { padding: 32px 24px; }
+    .assess-header h1 { font-size: 40px; }
+    .result-zone-name { font-size: 28px; }
+    .stage-options { grid-template-columns: 1fr; }
+  }
+  .values-block {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 32px 40px;
+    margin-bottom: 2px;
+  }
+
+  .values-block h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .values-intro {
+    font-size: 14px;
+    line-height: 1.75;
+    font-weight: 300;
+    color: #374151;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .values-question {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 16px;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .value-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--light);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .value-item:hover {
+    border-color: var(--ink);
+  }
+
+  .value-item.selected-1 { border-color: var(--ink); background: var(--ink); }
+  .value-item.selected-1 .value-label { color: white; }
+  .value-item.selected-1 .value-rank { background: white; color: var(--ink); }
+
+  .value-item.selected-2, .value-item.selected-3 {
+    border-color: var(--ink);
+    background: var(--lighter);
+  }
+
+  .value-rank {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--mid);
+    flex-shrink: 0;
+  }
+
+  .value-label {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .values-reflection {
+    display: none;
+    padding: 16px 20px;
+    background: var(--lighter);
+    border-left: 3px solid var(--ink);
+    font-size: 13px;
+    line-height: 1.75;
+    color: #374151;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  .values-reflection.visible { display: block; }
+
+  @media (max-width: 500px) {
+    .values-grid { grid-template-columns: 1fr; }
+  }
+  /* ── Values filter ── */
+  .values-block {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 32px 40px;
+    margin-bottom: 2px;
+  }
+
+  .values-block h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .values-intro {
+    font-size: 14px;
+    line-height: 1.75;
+    font-weight: 300;
+    color: #374151;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .values-question {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 16px;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .value-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--light);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .value-item:hover { border-color: var(--ink); }
+
+  .value-item.selected-1 { border-color: var(--ink); background: var(--ink); }
+  .value-item.selected-1 .value-label { color: white; }
+  .value-item.selected-1 .value-rank { background: white; color: var(--ink); }
+  .value-item.selected-2, .value-item.selected-3 { border-color: var(--ink); background: var(--lighter); }
+
+  .value-rank {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--mid);
+    flex-shrink: 0;
+  }
+
+  .value-label { font-size: 13px; font-weight: 400; color: var(--ink); }
+
+  .values-reflection {
+    display: none;
+    padding: 16px 20px;
+    background: var(--lighter);
+    border-left: 3px solid var(--ink);
+    font-size: 13px;
+    line-height: 1.75;
+    color: #374151;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  .values-reflection.visible { display: block; }
+
+  @media (max-width: 500px) { .values-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ══ ASSESSMENT ══ -->
+  <div id="assessment">
+
+    <div class="assess-header">
+      <div class="eyebrow">The Career Ratio · Self Assessment</div>
+      <h1>The Career Ratio</h1>
+      <div class="subtitle">Know where you are. Know what to do next.</div>
+      <p class="desc">This assessment measures how you are feeling about your career, not how others see you. Answer for yourself, honestly.</p>
+    </div>
+
+    <div class="stage-block">
+      <div class="section-header">
+        <span class="section-tag">Before You Begin</span>
+        <span class="section-title">Career Stage</span>
+        <span class="section-sub">Select the option that best describes where you are right now</span>
+      </div>
+      <div class="stage-options">
+        <button class="stage-btn" id="stage-early" onclick="selectStage('early')">
+          <span class="stage-btn-title">Early career</span>
+          <span class="stage-btn-desc">I'm building my foundation</span>
+        </button>
+        <button class="stage-btn" id="stage-mid" onclick="selectStage('mid')">
+          <span class="stage-btn-title">Mid career</span>
+          <span class="stage-btn-desc">I have a lot of experience and wonder what's next</span>
+        </button>
+        <button class="stage-btn" id="stage-experienced" onclick="selectStage('experienced')">
+          <span class="stage-btn-title">Experienced</span>
+          <span class="stage-btn-desc">I've built a long career, I'm deciding how to use what I've built and thinking about my legacy</span>
+        </button>
+        <button class="stage-btn" id="stage-transitioning" onclick="selectStage('transitioning')">
+          <span class="stage-btn-title">Transitioning</span>
+          <span class="stage-btn-desc">Something has changed and I'm figuring out what's next</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-tag">Part I</span>
+        <span class="section-title">Abilities</span>
+        <span class="section-sub">Knowledge · Skills · Track Record</span>
+      </div>
+      <div id="abilities-qs"></div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-tag">Part II</span>
+        <span class="section-title">Influence</span>
+        <span class="section-sub">Scope · Authority · Access</span>
+      </div>
+      <div id="influence-qs"></div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="progress-label" id="progress-label">0 of 12 answered</span>
+        <span class="progress-pct" id="progress-pct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button class="submit-btn" id="submit-btn" onclick="showResults()">Calculate My Ratio</button>
+    </div>
+
+  </div>
+
+  <!-- ══ RESULTS ══ -->
+  <div id="results"></div>
+
+</div>
+
+<script>
+const abQ = [
+  { id: 'a1', text: 'I have the subject matter knowledge my role requires — I know what I need to know to do this job well.' },
+  { id: 'a2', text: 'My practical skills are well-matched to the demands placed on me day-to-day.' },
+  { id: 'a3', text: 'I have a track record of delivering results that others in my organization recognize.' },
+  { id: 'a4', text: 'When I face new challenges in my role, I feel equipped to handle them effectively.' },
+  { id: 'a5', text: 'The results I produce consistently meet or exceed what my role demands.' },
+  { id: 'a6', text: 'I am actively developing the skills and knowledge needed to stay ahead of my role\'s demands.' },
+];
+
+const inQ = [
+  { id: 'i1', text: 'I have meaningful autonomy in how I approach and complete my work.' },
+  { id: 'i2', text: 'My scope of responsibility reflects what I am actually capable of handling.' },
+  { id: 'i3', text: 'I have the authority to make decisions that materially affect outcomes in my role.' },
+  { id: 'i4', text: 'I have access to the people, resources, and information I need to do my best work.' },
+  { id: 'i5', text: 'My input and judgment are sought and valued in important decisions.' },
+  { id: 'i6', text: 'My role gives me enough authority and scope to make the impact I am capable of making.' },
+];
+
+let selectedStage = null;
+
+const stageNarratives = {
+  Z1: {
+    early: "You're in over your head right now and that's not unusual early in someone's career. What matters is what you do next. Do not view this as starting to fail or having made the wrong decision. Instead think of it as feedback to act. Fake it until you make it is bad advice. Find a mentor, ask for help openly, and build a development plan immediately. You can overcome the overwhelm, but you need to act quickly.",
+    mid: "You've taken on more than your current abilities support. A big promotion, a bold career move, a new industry can all bring this situation on. The risk at this stage is that the gap is more visible and the stakes are higher. You need a structured development plan, and you need it now. Transparency with your manager will serve you better than trying to hide the gap. Approach your manager with the framing of: \"this is a bit more than I anticipated and here's where I see I can develop to close this gap.\" But do it quickly.",
+    experienced: "At this stage an abilities deficit often means you've stepped into genuinely new territory such as a board role, a pivot, a new industry. That takes courage, but the gap is real and experienced professionals around you will notice. Move quickly to close it. Surround yourself with people who have mastered what you have not yet and be honest with yourself and everyone else about the learning curve. Authenticity will win you respect and support.",
+    transitioning: "You're in a transition and in a stretch role at the same time which is a lot of uncertainty to carry at once. The gap between your current abilities and your influence reflects how new this territory is. The most important thing you can do right now is name the gap honestly and build a support structure around closing it. Transitions that start with self-awareness succeed. Ones that start with pretending you have figured it out, don't.",
+  },
+  Z2: {
+    early: "This is exactly where you should be. You are being stretched, you are uncomfortable in a manageable way, and you are developing faster than you realize. Stay here intentionally. Find a mentor, build your skills deliberately, and track your progress. This discomfort is the feeling of becoming.",
+    mid: "You're in a productive stretch but at this stage passive unintentional development isn't enough. You have built enough experience to know what you need to close the gap. Name it specifically, pursue it, and give yourself a timeline. Mid-career Growth Zone with intention is powerful. Without it stagnation sets in.",
+    experienced: "Landing in the Growth Zone later in your career usually means one of two things: a deliberate pivot into something new, or a role that has evolved faster than your development. Either way the path is the same: identify the specific gap, find people who have already solved it, and develop with urgency. At this stage your experience is your greatest asset in moving faster than someone earlier in their career would.",
+    transitioning: "Being in transition and in the Growth Zone means you're already moving but it may not feel like it yet. The discomfort you are experiencing is a sign something is changing. The abilities gap you have right now is normal for someone moving in a new direction. Focus less on how far you must go and more on what specific skills and knowledge will close the gap fastest. Transitions reward people who develop deliberately.",
+  },
+  Z3: {
+    early: "You're performing well and your role fits your abilities. Enjoy it but do not settle here. At your stage careers move fast and the window between optimization and underutilized is shorter than you think. Start designing your next intentional growth move now while you're operating at your peak.",
+    mid: "You're in the zone of peak effectiveness. This is where your best work happens. The question at this stage is whether you are building something bigger. Use this alignment as your launching pad. This is where defining values and purpose work matter. What are you working toward?",
+    experienced: "You've struck a balance between what you bring and what you're asked to do. That is valuable and not easily achieved. The question at this stage is whether this is where you want to be, or is there still a bigger stage calling you? Both are valid answers. What matters is that the choice is conscious.",
+    transitioning: "Landing in the Optimization Zone during a transition means you brought more into your new direction than you may have realized. Your abilities and influence are aligned even in unfamiliar territory. Use this as confidence. You are further along than the uncertainty of transition makes you feel. The question now is what you want to build from here with the foundation you have already established.",
+  },
+  Z4: {
+    early: "You've outpaced your role. That is a remarkable position to be in early in your career. It means you have developed faster than expected. Do not wait to be noticed. Make the case for more responsibility, take on projects that stretch your abilities, and start positioning yourself for the next level now. Early career mastery is momentum. Don't lose it.",
+    mid: "You've mastered this role and your abilities are ready for a bigger stage. The risk at this stage is normalizing the feeling of being unchallenged. It is comfortable but it is quietly costing you your purpose. You know enough now to make a bold move. The question is where do you want to go next.",
+    experienced: "You've built something significant. A deep well of ability that exceeds what your current role asks of you. At this stage, the question of what forward looks like is more nuanced. Is it a final push into greater influence and a larger stage? Is it deploying your mastery into building others through mentoring, leading, or teaching? Is it a pivot into something more meaningful? All of them are good. What matters is that you do not let this mastery sit idle. Deployed intentionally, it becomes your legacy. Left undeployed it quietly fades.",
+    transitioning: "Your abilities have followed you into your transition and have outpaced the influence your new situation currently provides. That is a strong position to be in since you are not starting over but pivoting. The challenge now is finding or creating the scope that matches what you bring. Do not undervalue yourself because the context is new. Your abilities are real and transferable. The right opportunity will recognize them.",
+  },
+  Z5: {
+    early: "Your abilities have outrun your influence significantly. That is frustrating early in a career when you feel ready but cannot get traction. The move here is twofold: have a direct conversation with your manager about expanded responsibility and simultaneously start exploring roles that match what you are capable of. You need to be your own advocate.",
+    mid: "This is one of the more dangerous zones in mid-career because it often feels like loyalty. Staying somewhere you have outgrown because it is familiar means your abilities are being wasted. The resentment you feel is internal feedback. You must be honest with yourself if it is time to act on it. You have enough experience and history to command a role that matches what you bring. Give yourself permission.",
+    experienced: "At this stage a critical influence deficit often comes with complicated feelings. You may feel loyalty to an organization, comfort in a known environment, uncertainty about what is next. But skills and knowledge that are stagnant do not stay sharp. Your abilities are significant. The question is whether you are willing to advocate for the stage you have worked so hard for, internally or externally. It's time to make your most intentional move.",
+    transitioning: "You're in transition and significantly underutilized which can feel defeating. Let that feedback be clarifying to you. The gap between what you are capable of and what you are currently empowered to do is telling you something important: this is not the right landing place yet. Transitions take time but they should not require you to shrink. Keep moving toward a role or situation that matches what you truly bring.",
+  },
+};
+
+function selectStage(stage) {
+  selectedStage = stage;
+  ['early','mid','experienced','transitioning'].forEach(s => {
+    document.getElementById(`stage-${s}`).classList.toggle('selected', s === stage);
+  });
+  updateProgress();
+}
+
+const zones = [
+  {
+    num: 'Z1', name: 'Critical Abilities Deficit', ratio: '< 0.5 : 1',
+    barW: 14, bg: '#9b2226', hBg: '#f9eaea', color: '#9b2226',
+    tagText: 'Intervene now', tagBg: '#f9eaea',
+    desc: 'Influence far exceeds abilities. Intervene immediately — develop deliberately or recalibrate your role.',
+    durationLabel: '30–90 days', durationPct: 8,
+    tagline: 'Your influence significantly exceeds your current abilities. The gap will widen without immediate, intentional action. This is your signal to intervene — not to wait.',
+    consequence: 'Role failure, loss of credibility, team trust breakdown.',
+    actions: [
+      'Seek an immediate, structured development plan with your manager.',
+      'Identify 1–2 mentors who have mastered your current scope.',
+      'Be transparent about where you need support — it builds trust, not doubt.',
+      'Consider whether a role adjustment is appropriate if development support is unavailable.',
+    ]
+  },
+  {
+    num: 'Z2', name: 'Growth Zone', ratio: '0.5–0.9 : 1',
+    barW: 22, bg: '#4a7c59', hBg: '#eaf2ed', color: '#4a7c59',
+    tagText: 'Develop deliberately', tagBg: '#eaf2ed',
+    desc: 'Stretched but not breaking. The most development happens here — but only with deliberate, active effort.',
+    durationLabel: '6–24 months', durationPct: 38,
+    tagline: 'You are in the zone where the most growth happens. This discomfort is productive — but only if you are developing with intention. Passive time here leads backward, not forward.',
+    consequence: 'Abilities stall, credibility erodes, zone drifts toward critical.',
+    actions: [
+      'Build a deliberate skill development plan targeting your specific gaps.',
+      'Find a mentor or coach with experience in your current scope.',
+      'Identify the 2–3 abilities most critical to close the gap.',
+      'Track your progress — movement matters as much as position.',
+    ]
+  },
+  {
+    num: 'Z3', name: 'Optimization Zone', ratio: '0.9–1.1 : 1',
+    barW: 14, bg: '#9a7d2e', hBg: '#f7f1e3', color: '#9a7d2e',
+    tagText: 'Ready to advance', tagBg: '#f7f1e3',
+    desc: 'Abilities and influence aligned. Peak performance — and your signal that it\'s time to raise the bar.',
+    durationLabel: 'Peak readiness — raise the bar', durationPct: 100,
+    tagline: 'You are performing at your peak. This is not the destination — it is the launching pad. A growth mindset means using this alignment as the signal to intentionally seek your next challenge.',
+    consequence: 'Complacency sets in. Static comfort masks slow drift and stalls long-term growth.',
+    actions: [
+      'Recognize this as peak readiness — begin designing your next intentional challenge.',
+      'Identify the expanded scope, higher influence, or new skills that will push you forward.',
+      'Invest in others — mentoring at this stage deepens your own mastery.',
+      'Do not mistake comfort for arrival. The cycle continues forward.',
+    ]
+  },
+  {
+    num: 'Z4', name: 'Mastery Zone', ratio: '1.1–1.5 : 1',
+    barW: 22, bg: '#5c4a8a', hBg: '#eeebf5', color: '#5c4a8a',
+    tagText: 'Deploy forward', tagBg: '#eeebf5',
+    desc: 'Role mastered. You are fully loaded — now deploy that mastery into greater challenge and influence.',
+    durationLabel: '12–24 months', durationPct: 38,
+    tagline: 'You have mastered your current role. This is not a plateau — it is a launching pad. Your abilities are ready for a bigger stage. The question now is: where do you deploy them next?',
+    consequence: 'Disengagement, reduced output, talent atrophy, eventual departure.',
+    actions: [
+      'Identify the next level of challenge your abilities are ready for.',
+      'Make a case for expanded scope, a new role, or greater responsibility.',
+      'Begin building the skills and relationships needed for your next level now.',
+      'If the organization cannot provide the next challenge, look beyond it.',
+      'If the organization is right but the opportunity isn\'t available yet, identify exactly what the next role requires and build toward it deliberately. Be ready before the door opens.',
+    ]
+  },
+  {
+    num: 'Z5', name: 'Critical Influence Deficit', ratio: '> 1.5 : 1',
+    barW: 28, bg: '#7d2a2a', hBg: '#f5eaea', color: '#7d2a2a',
+    tagText: 'Escalate or exit', tagBg: '#f5eaea',
+    desc: 'Significantly over-qualified. Your talents are stalled — escalate your influence or find a stage that fits.',
+    durationLabel: '60–90 days', durationPct: 8,
+    tagline: 'Your abilities have significantly outgrown your current influence. Staying here is not neutral — talent that is not deployed forward will atrophy. This is your signal to escalate or exit.',
+    consequence: 'Burnout, resentment, talent drain. Career regression risk.',
+    actions: [
+      'Have a direct, specific conversation with your manager about expanded responsibility.',
+      'Actively pursue promotion, lateral moves, or roles with greater scope.',
+      'Do not allow this to become your default — talent stalls without challenge.',
+      'If the organization cannot provide the influence your abilities require, begin looking externally.',
+      'If leaving isn\'t the right move yet, make the wait intentional. Know specifically what the next role requires, build toward it actively, and make sure the right people know you\'re ready. Strategic patience can feel like stagnation but truthfully it\'s preparation.',
+    ]
+  },
+];
+
+const answers = {};
+const totalQ = abQ.length + inQ.length;
+
+function renderQuestions(qs, containerId) {
+  const el = document.getElementById(containerId);
+  qs.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `card-${q.id}`;
+    card.innerHTML = `
+      <div class="q-meta">
+        <span class="q-num">0${i + 1}</span>
+        <span class="q-text">${q.text}</span>
+      </div>
+      <div class="scale-wrap">
+        <div class="scale-btns">
+          ${[1,2,3,4,5].map(n => `<button class="scale-btn" id="btn-${q.id}-${n}" onclick="pick('${q.id}',${n})">${n}</button>`).join('')}
+        </div>
+        <div class="scale-ends"><span>Strongly disagree</span><span>Strongly agree</span></div>
+      </div>
+    `;
+    el.appendChild(card);
+  });
+}
+
+function updateProgress() {
+  const n = Object.keys(answers).length;
+  const pct = Math.round((n / totalQ) * 100);
+  document.getElementById('progress-label').textContent = `${n} of ${totalQ} answered`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('submit-btn').classList.toggle('active', n === totalQ && selectedStage !== null);
+}
+
+function pick(qId, val) {
+  answers[qId] = val;
+  for (let i = 1; i <= 5; i++) document.getElementById(`btn-${qId}-${i}`).classList.toggle('selected', i === val);
+  document.getElementById(`card-${qId}`).classList.add('answered');
+  updateProgress();
+}
+
+function calcScore(qs) {
+  return qs.reduce((s, q) => s + (answers[q.id] || 0), 0) / (qs.length * 5);
+}
+
+function getZoneIndex(ratio) {
+  if (ratio < 0.5) return 0;
+  if (ratio < 0.9) return 1;
+  if (ratio <= 1.1) return 2;
+  if (ratio <= 1.5) return 3;
+  return 4;
+}
+
+function showResults() {
+  const aScore = calcScore(abQ);
+  const iScore = calcScore(inQ);
+  const ratio = iScore > 0 ? aScore / iScore : 1;
+  const zi = getZoneIndex(ratio);
+  const z = zones[zi];
+
+  document.getElementById('assessment').style.display = 'none';
+  const res = document.getElementById('results');
+  res.style.display = 'block';
+
+  const aDisp = Math.round(aScore * 100);
+  const iDisp = Math.round(iScore * 100);
+  const ratioDisp = ratio.toFixed(2);
+
+  // Build spectrum bar HTML
+  const specBarHTML = zones.map((zn, i) => `
+    <div class="seg-result ${i === zi ? 'active' : 'dimmed'}" style="width:${zn.barW}%;background:${zn.bg}">
+      <span class="seg-num">${zn.num}</span>
+      ${i === zi ? '<span class="seg-you">YOU</span>' : ''}
+    </div>
+  `).join('');
+
+  // Axis
+  const minR = 0.3, maxR = 1.9;
+  const majorTicks = [0.5, 0.9, 1.0, 1.1, 1.5];
+  const axisTicksHTML = [0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9].map(r => {
+    const pct = ((r - minR) / (maxR - minR)) * 100;
+    const isMajor = majorTicks.includes(r);
+    return `<div style="position:absolute;left:${pct}%;top:0;width:1px;height:${isMajor?9:5}px;background:${isMajor?'#9ca3af':'#e5e7eb'};transform:translateX(-50%)"></div>`;
+  }).join('') + majorTicks.map(r => {
+    const pct = ((r - minR) / (maxR - minR)) * 100;
+    return `<div style="position:absolute;left:${pct}%;top:11px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:10px;color:${r===1.0?'#166534':'#9ca3af'};font-weight:${r===1.0?'500':'400'}">${r===1.0?'1.0 ✦':r.toFixed(1)}</div>`;
+  }).join('');
+
+  // Zone grid HTML
+  const zoneGridHTML = zones.map((zn, i) => `
+    <div class="zone-col-result ${i === zi ? 'active' : 'dimmed'}">
+      <div class="zone-header" style="background:${zn.hBg}">
+        <div class="zone-number" style="color:${zn.color}">${zn.num}</div>
+        <div class="zone-name">${zn.name}</div>
+      </div>
+      <div class="zone-body">
+        <div class="zone-ratio" style="color:${zn.color}">${zn.ratio}</div>
+        <div class="zone-desc">${zn.desc}</div>
+        <div class="zone-tag" style="background:${zn.tagBg};color:${zn.color}">${zn.tagText}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Time rows HTML
+  const timeRowsHTML = zones.map((zn, i) => `
+    <div class="time-data-row ${i === zi ? 'active' : 'dimmed'}">
+      <div class="time-zone-label" style="color:${zn.color}">${zn.num} — ${zn.name}</div>
+      <div class="time-bar-track">
+        <div class="time-bar-fill" style="width:${zn.durationPct}%;background:${zn.bg}">
+          ${zn.durationPct > 25 ? `<span>${zn.durationLabel}</span>` : ''}
+        </div>
+      </div>
+      <div class="time-duration" style="color:${zn.color}">${zn.durationLabel}</div>
+      <div class="time-consequence">${zn.consequence}</div>
+    </div>
+  `).join('');
+
+  // Actions HTML
+  const actionsHTML = z.actions.map(a => `
+    <li><span class="action-arrow">→</span>${a}</li>
+  `).join('');
+
+  const stageNarrative = stageNarratives[z.num][selectedStage] || '';
+  const stageLabel = { early: 'Early career', mid: 'Mid career', experienced: 'Experienced', transitioning: 'Transitioning' }[selectedStage];
+
+  res.innerHTML = `
+    <!-- Hero -->
+    <div class="result-hero" style="border-left: 4px solid ${z.bg}">
+      <div>
+        <div class="result-zone-tag">Your Career Zone · ${z.num} · ${stageLabel}</div>
+        <div class="result-zone-name">${z.name}</div>
+        <div class="result-ratio-display" style="color:${z.bg}">${ratioDisp} : 1 &nbsp;·&nbsp; Abilities : Influence</div>
+        <p class="result-tagline">${z.tagline}</p>
+      </div>
+      <div class="result-scores">
+        <div class="score-item">
+          <div class="score-item-label">Abilities</div>
+          <div class="score-item-value" style="color:${z.bg}">${aDisp}<span style="font-size:16px;opacity:0.5">%</span></div>
+        </div>
+        <div class="score-item">
+          <div class="score-item-label">Influence</div>
+          <div class="score-item-value" style="color:${z.bg}">${iDisp}<span style="font-size:16px;opacity:0.5">%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage narrative -->
+    <div class="actions-block" style="border-left: 4px solid ${z.bg}; margin-bottom: 2px;">
+      <h3 style="margin-bottom:12px;font-size:14px;font-family:'IBM Plex Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:${z.bg}">${stageLabel} · ${z.name}</h3>
+      <p style="font-size:14px;line-height:1.8;font-weight:300;color:#374151">${stageNarrative}</p>
+    </div>
+
+    <!-- Spectrum with position -->
+    <div class="spectrum-result">
+      <div class="result-section-label">Your Position on the Spectrum</div>
+      <div class="spectrum-bar-result">${specBarHTML}</div>
+      <div class="spectrum-axis-result" style="position:relative;height:28px;margin-top:0">${axisTicksHTML}</div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#9ca3af">← Abilities deficit</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#9ca3af">Influence deficit →</span>
+      </div>
+    </div>
+
+    <!-- Full diagram -->
+    <div class="full-diagram">
+      <div class="result-section-label">Full Zone Reference — Your Zone Highlighted</div>
+      <div class="zones-grid-result">${zoneGridHTML}</div>
+
+      <div class="result-section-label">How Long Is Each Zone Healthy?</div>
+      <div class="time-rows-result">
+        <div class="time-header-row">
+          <div class="time-col-head">Zone</div>
+          <div class="time-col-head">Duration</div>
+          <div class="time-col-head">Window</div>
+          <div class="time-col-head">If You Stay Too Long</div>
+        </div>
+        ${timeRowsHTML}
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-block">
+      <h3>Recommended Actions for ${z.name}</h3>
+      <div class="duration-note">Healthy duration: ${z.durationLabel}</div>
+      <ul class="action-list">${actionsHTML}</ul>
+    </div>
+
+    <!-- Values filter -->
+    <div class="values-block">
+      <h3>The Values Filter</h3>
+      <p class="values-intro">Your zone tells you what the career move is. Your values tell you whether it's the right move for your life right now. The best next step honors both. Now that you know your zone and your next moves — does this align with what matters most to you right now?</p>
+      <div class="values-question">Select your top 3 priorities right now — not forever, just right now</div>
+      <div class="values-grid" id="valuesGrid">
+        ${['Career advancement','Family and relationships','Financial security','Personal freedom and flexibility','Purpose and meaning','Location and stability','Learning and growth','Health and wellbeing'].map((v,i) => `
+          <div class="value-item" id="val-${i}" onclick="selectValue(${i}, '${v}')">
+            <div class="value-rank" id="rank-${i}">·</div>
+            <div class="value-label">${v}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="values-reflection" id="valuesReflection"></div>
+    </div>
+
+    <!-- Restart -->
+    <div class="restart-wrap">
+      <button class="restart-btn" onclick="restart()">Retake Assessment</button>
+    </div>
+  `;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  Object.keys(answers).forEach(k => delete answers[k]);
+  selectedStage = null;
+  valueSelections.length = 0;
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('assessment').style.display = 'block';
+  document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.question-card').forEach(c => c.classList.remove('answered'));
+  document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('progress-label').textContent = '0 of 12 answered';
+  document.getElementById('progress-pct').textContent = '0%';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('submit-btn').classList.remove('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Values filter
+const valueSelections = [];
+
+function selectValue(idx, label) {
+  const el = document.getElementById(`val-${idx}`);
+  const rank = document.getElementById(`rank-${idx}`);
+  const existing = valueSelections.indexOf(idx);
+
+  if (existing > -1) {
+    // Deselect
+    valueSelections.splice(existing, 1);
+    el.className = 'value-item';
+    rank.textContent = '·';
+    // Reindex remaining
+    valueSelections.forEach((selIdx, i) => {
+      document.getElementById(`rank-${selIdx}`).textContent = i + 1;
+      document.getElementById(`val-${selIdx}`).className = `value-item selected-${i + 1}`;
+    });
+  } else if (valueSelections.length < 3) {
+    valueSelections.push(idx);
+    const pos = valueSelections.length;
+    el.className = `value-item selected-${pos}`;
+    rank.textContent = pos;
+  }
+
+  // Show reflection when 3 selected
+  const reflection = document.getElementById('valuesReflection');
+  if (valueSelections.length === 3) {
+    const labels = valueSelections.map(i => document.querySelectorAll('.value-label')[i].textContent);
+    reflection.innerHTML = `Your top three priorities right now are <strong>${labels[0]}</strong>, <strong>${labels[1]}</strong>, and <strong>${labels[2]}</strong>. As you review your recommended actions, ask yourself: does the next move honor these? If the obvious career move conflicts with what matters most to you right now — look for a version of forward that serves both your career and your life.`;
+    reflection.classList.add('visible');
+  } else {
+    reflection.classList.remove('visible');
+  }
+}
+
+renderQuestions(abQ, 'abilities-qs');
+renderQuestions(inQ, 'influence-qs');
+</script>
+</body>
+</html>
